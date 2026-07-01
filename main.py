@@ -1,3 +1,5 @@
+import csv
+
 print("====================================")
 print("Student Result Management System")
 print("====================================")
@@ -15,14 +17,21 @@ while True:
         student_name = input("Enter Student Name: ")
         marks = input("Enter Student Marks: ")
 
-        print("\nStudent Details")
-        print("ID:", student_id)
-        print("Name:", student_name)
-        print("Marks:", marks)
+        with open("students.csv", "a", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow([student_id, student_name, marks])
+
         print("Student added successfully!")
 
     elif choice == "2":
-        print("View Students feature coming next.")
+        print("\nStudent Records")
+        try:
+            with open("students.csv", "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    print(row)
+        except FileNotFoundError:
+            print("No student records found.")
 
     elif choice == "3":
         print("Thank you!")
