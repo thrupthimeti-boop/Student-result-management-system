@@ -8,7 +8,8 @@ while True:
     print("\nMenu")
     print("1. Add Student")
     print("2. View Students")
-    print("3. Exit")
+    print("3. Search Student")
+    print("4. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -34,6 +35,28 @@ while True:
             print("No student records found.")
 
     elif choice == "3":
+        search_id = input("Enter Student ID to search: ")
+        found = False
+
+        try:
+            with open("students.csv", "r") as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    if len(row) > 0 and row[0] == search_id:
+                        print("\nStudent Found")
+                        print("ID:", row[0])
+                        print("Name:", row[1])
+                        print("Marks:", row[2])
+                        found = True
+                        break
+
+                if not found:
+                    print("Student not found.")
+
+        except FileNotFoundError:
+            print("No student records found.")
+
+    elif choice == "4":
         print("Thank you!")
         break
 
