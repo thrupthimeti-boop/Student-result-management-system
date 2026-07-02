@@ -18,18 +18,27 @@ while True:
     if choice == "1":
         student_id = input("Enter Student ID: ")
         student_name = input("Enter Student Name: ")
-        marks = input("Enter Student Marks: ")
+
+        math = int(input("Enter Math Marks: "))
+        science = int(input("Enter Science Marks: "))
+        english = int(input("Enter English Marks: "))
+
+        total = math + science + english
+        percentage = total / 3
 
         with open("students.csv", "a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([student_id, student_name, marks])
+            writer.writerow([student_id, student_name, math, science, english, total, percentage])
 
         print("Student added successfully!")
+        print("Total:", total)
+        print("Percentage:", percentage)
 
     elif choice == "2":
         try:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
+                print("\nStudent Records")
                 for row in reader:
                     print(row)
         except FileNotFoundError:
@@ -42,12 +51,17 @@ while True:
         try:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
+
                 for row in reader:
                     if row and row[0] == search_id:
                         print("\nStudent Found")
                         print("ID:", row[0])
                         print("Name:", row[1])
-                        print("Marks:", row[2])
+                        print("Math:", row[2])
+                        print("Science:", row[3])
+                        print("English:", row[4])
+                        print("Total:", row[5])
+                        print("Percentage:", row[6])
                         found = True
                         break
 
@@ -69,8 +83,14 @@ while True:
                 for row in reader:
                     if row and row[0] == update_id:
                         new_name = input("Enter New Name: ")
-                        new_marks = input("Enter New Marks: ")
-                        updated_rows.append([update_id, new_name, new_marks])
+                        math = int(input("Enter Math Marks: "))
+                        science = int(input("Enter Science Marks: "))
+                        english = int(input("Enter English Marks: "))
+
+                        total = math + science + english
+                        percentage = total / 3
+
+                        updated_rows.append([update_id, new_name, math, science, english, total, percentage])
                         found = True
                     else:
                         updated_rows.append(row)
@@ -80,7 +100,7 @@ while True:
                 writer.writerows(updated_rows)
 
             if found:
-                print("Student record updated successfully!")
+                print("Student updated successfully!")
             else:
                 print("Student not found.")
 
