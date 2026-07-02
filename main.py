@@ -9,7 +9,8 @@ while True:
     print("1. Add Student")
     print("2. View Students")
     print("3. Search Student")
-    print("4. Exit")
+    print("4. Update Student")
+    print("5. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -25,7 +26,6 @@ while True:
         print("Student added successfully!")
 
     elif choice == "2":
-        print("\nStudent Records")
         try:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
@@ -42,21 +42,50 @@ while True:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
                 for row in reader:
-                    if len(row) > 0 and row[0] == search_id:
-                        print("\nStudent Found")
+                    if row and row[0] == search_id:
                         print("ID:", row[0])
                         print("Name:", row[1])
                         print("Marks:", row[2])
                         found = True
                         break
 
-                if not found:
-                    print("Student not found.")
+            if not found:
+                print("Student not found.")
 
         except FileNotFoundError:
             print("No student records found.")
 
     elif choice == "4":
+        update_id = input("Enter Student ID to update: ")
+        updated_rows = []
+        found = False
+
+        try:
+            with open("students.csv", "r") as file:
+                reader = csv.reader(file)
+
+                for row in reader:
+                    if row and row[0] == update_id:
+                        new_name = input("Enter New Name: ")
+                        new_marks = input("Enter New Marks: ")
+                        updated_rows.append([update_id, new_name, new_marks])
+                        found = True
+                    else:
+                        updated_rows.append(row)
+
+            with open("students.csv", "w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerows(updated_rows)
+
+            if found:
+                print("Student record updated successfully!")
+            else:
+                print("Student not found.")
+
+        except FileNotFoundError:
+            print("No student records found.")
+
+    elif choice == "5":
         print("Thank you!")
         break
 
