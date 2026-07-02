@@ -26,21 +26,32 @@ while True:
         total = math + science + english
         percentage = total / 3
 
+        if percentage >= 90:
+            grade = "A"
+        elif percentage >= 80:
+            grade = "B"
+        elif percentage >= 70:
+            grade = "C"
+        elif percentage >= 60:
+            grade = "D"
+        else:
+            grade = "F"
+
         with open("students.csv", "a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([student_id, student_name, math, science, english, total, percentage])
+            writer.writerow([student_id, student_name, math, science, english, total, percentage, grade])
 
         print("Student added successfully!")
-        print("Total:", total)
-        print("Percentage:", percentage)
 
     elif choice == "2":
         try:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
+
                 print("\nStudent Records")
                 for row in reader:
                     print(row)
+
         except FileNotFoundError:
             print("No student records found.")
 
@@ -62,6 +73,7 @@ while True:
                         print("English:", row[4])
                         print("Total:", row[5])
                         print("Percentage:", row[6])
+                        print("Grade:", row[7])
                         found = True
                         break
 
@@ -82,6 +94,7 @@ while True:
 
                 for row in reader:
                     if row and row[0] == update_id:
+
                         new_name = input("Enter New Name: ")
                         math = int(input("Enter Math Marks: "))
                         science = int(input("Enter Science Marks: "))
@@ -90,7 +103,18 @@ while True:
                         total = math + science + english
                         percentage = total / 3
 
-                        updated_rows.append([update_id, new_name, math, science, english, total, percentage])
+                        if percentage >= 90:
+                            grade = "A"
+                        elif percentage >= 80:
+                            grade = "B"
+                        elif percentage >= 70:
+                            grade = "C"
+                        elif percentage >= 60:
+                            grade = "D"
+                        else:
+                            grade = "F"
+
+                        updated_rows.append([update_id, new_name, math, science, english, total, percentage, grade])
                         found = True
                     else:
                         updated_rows.append(row)
