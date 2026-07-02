@@ -19,9 +19,23 @@ while True:
         student_id = input("Enter Student ID: ")
         student_name = input("Enter Student Name: ")
 
-        math = int(input("Enter Math Marks: "))
-        science = int(input("Enter Science Marks: "))
-        english = int(input("Enter English Marks: "))
+        while True:
+            math = int(input("Enter Math Marks (0-100): "))
+            if 0 <= math <= 100:
+                break
+            print("Invalid marks! Enter between 0 and 100.")
+
+        while True:
+            science = int(input("Enter Science Marks (0-100): "))
+            if 0 <= science <= 100:
+                break
+            print("Invalid marks! Enter between 0 and 100.")
+
+        while True:
+            english = int(input("Enter English Marks (0-100): "))
+            if 0 <= english <= 100:
+                break
+            print("Invalid marks! Enter between 0 and 100.")
 
         total = math + science + english
         percentage = total / 3
@@ -39,7 +53,16 @@ while True:
 
         with open("students.csv", "a", newline="") as file:
             writer = csv.writer(file)
-            writer.writerow([student_id, student_name, math, science, english, total, percentage, grade])
+            writer.writerow([
+                student_id,
+                student_name,
+                math,
+                science,
+                english,
+                total,
+                percentage,
+                grade
+            ])
 
         print("Student added successfully!")
 
@@ -47,7 +70,6 @@ while True:
         try:
             with open("students.csv", "r") as file:
                 reader = csv.reader(file)
-
                 print("\nStudent Records")
                 for row in reader:
                     print(row)
@@ -77,13 +99,12 @@ while True:
                         found = True
                         break
 
-            if not found:
-                print("Student not found.")
+                if not found:
+                    print("Student not found.")
 
         except FileNotFoundError:
             print("No student records found.")
-
-    elif choice == "4":
+   elif choice == "4":
         update_id = input("Enter Student ID to update: ")
         updated_rows = []
         found = False
@@ -96,9 +117,24 @@ while True:
                     if row and row[0] == update_id:
 
                         new_name = input("Enter New Name: ")
-                        math = int(input("Enter Math Marks: "))
-                        science = int(input("Enter Science Marks: "))
-                        english = int(input("Enter English Marks: "))
+
+                        while True:
+                            math = int(input("Enter New Math Marks (0-100): "))
+                            if 0 <= math <= 100:
+                                break
+                            print("Invalid marks!")
+
+                        while True:
+                            science = int(input("Enter New Science Marks (0-100): "))
+                            if 0 <= science <= 100:
+                                break
+                            print("Invalid marks!")
+
+                        while True:
+                            english = int(input("Enter New English Marks (0-100): "))
+                            if 0 <= english <= 100:
+                                break
+                            print("Invalid marks!")
 
                         total = math + science + english
                         percentage = total / 3
@@ -114,8 +150,18 @@ while True:
                         else:
                             grade = "F"
 
-                        updated_rows.append([update_id, new_name, math, science, english, total, percentage, grade])
+                        updated_rows.append([
+                            update_id,
+                            new_name,
+                            math,
+                            science,
+                            english,
+                            total,
+                            percentage,
+                            grade
+                        ])
                         found = True
+
                     else:
                         updated_rows.append(row)
 
