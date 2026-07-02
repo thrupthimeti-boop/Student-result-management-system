@@ -10,7 +10,8 @@ while True:
     print("2. View Students")
     print("3. Search Student")
     print("4. Update Student")
-    print("5. Exit")
+    print("5. Delete Student")
+    print("6. Exit")
 
     choice = input("Enter your choice: ")
 
@@ -43,6 +44,7 @@ while True:
                 reader = csv.reader(file)
                 for row in reader:
                     if row and row[0] == search_id:
+                        print("\nStudent Found")
                         print("ID:", row[0])
                         print("Name:", row[1])
                         print("Marks:", row[2])
@@ -86,6 +88,33 @@ while True:
             print("No student records found.")
 
     elif choice == "5":
+        delete_id = input("Enter Student ID to delete: ")
+        updated_rows = []
+        found = False
+
+        try:
+            with open("students.csv", "r") as file:
+                reader = csv.reader(file)
+
+                for row in reader:
+                    if row and row[0] == delete_id:
+                        found = True
+                    else:
+                        updated_rows.append(row)
+
+            with open("students.csv", "w", newline="") as file:
+                writer = csv.writer(file)
+                writer.writerows(updated_rows)
+
+            if found:
+                print("Student deleted successfully!")
+            else:
+                print("Student not found.")
+
+        except FileNotFoundError:
+            print("No student records found.")
+
+    elif choice == "6":
         print("Thank you!")
         break
 
